@@ -12,6 +12,11 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class SyncCommand extends Command
 {
+    private $src;
+    private $dest;
+    private $fs;
+    private $output;
+
     protected function configure()
     {
         $this
@@ -24,23 +29,39 @@ class SyncCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $srcDir = $input->getArgument('<src>');
-        $destDir = $input->getArgument('<dest>');
-        $fs = new Filesystem();
-
-        if (! $fs->exists($srcDir)) {
-            $output->writeln('<error><src> is not a directory</error>');
+        $this->prepareProperties($input, $output);
+        if (! $this->pathsAreValid()) {
             return;
         }
-        $srcDir = rtrim($srcDir, '/').'/';
+        $this->processSync();
+    }
 
-        if (! $fs->exists($destDir)) {
-            $output->writeln('<error><dest> is not a directory</error>');
-            return;
+    protected function prepareProperties(InputInterface $input, OutputInterface $output)
+    {
+        $this->src = $input->getArgument('<src>');
+        $this->dest = $input->getArgument('<dest>');
+        $this->fs = new Filesystem();
+        $this->output = $output;
+    }
+
+    protected function pathsAreValid()
+    {
+        if (! $this->fs->exists($this->src)) {
+            $this->output->writeln('<error><src> is not a directory</error>');
+            return false;
         }
-        $destDir = rtrim($destDir, '/').'/';
+        $this->src = rtrim($this->src, '/').'/';
 
-        $output->writeln($srcDir);
-        $output->writeln($destDir);
+        if (! $this->fs->exists($this->dest)) {
+            $this->output->writeln('<error><dest> is not a directory</error>');
+            return false;
+        }
+        $this->dest = rtrim($this->dest, '/').'/';
+        return true;
+    }
+
+    protected function processSync()
+    {
+        $this->output->writeln('@todo implement processSync');
     }
 }
