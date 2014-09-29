@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ea5431f13d51fc18b3825ab5c08f7835",
+    "hash": "ac77f95f4ceef1d7bc92bf1d38ff4a73",
     "packages": [
         {
             "name": "symfony/console",
@@ -107,6 +107,53 @@
             "description": "Symfony Filesystem Component",
             "homepage": "http://symfony.com",
             "time": "2014-09-22 09:14:18"
+        },
+        {
+            "name": "symfony/finder",
+            "version": "v2.5.5",
+            "target-dir": "Symfony/Component/Finder",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Finder.git",
+                "reference": "d5033742b9a6206ef6d06e813870bca18e9205df"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/d5033742b9a6206ef6d06e813870bca18e9205df",
+                "reference": "d5033742b9a6206ef6d06e813870bca18e9205df",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Finder\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Symfony Finder Component",
+            "homepage": "http://symfony.com",
+            "time": "2014-09-27 08:35:39"
         }
     ],
     "packages-dev": [
@@ -120,9 +167,9 @@
 
     ],
     "prefer-stable": false,
-    "platform": [
-
-    ],
+    "platform": {
+        "php": ">=5.3.3"
+    },
     "platform-dev": [
 
     ]
