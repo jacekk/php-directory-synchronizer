@@ -1,0 +1,16 @@
+{
+    "name": "jacekk/php-directory-synchronizer",
+    "description": "Small utility which helps keep (local) directories in sync.",
+    "require": {
+        "symfony/console": "~2.5",
+        "symfony/filesystem": "~2.5"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "JacekK",
+            "email": "info@jacek-k.net"
+        }
+    ],
+    "minimum-stability": "RC"
+}
