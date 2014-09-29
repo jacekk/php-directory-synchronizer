@@ -12,5 +12,8 @@
             "email": "info@jacek-k.net"
         }
     ],
-    "minimum-stability": "RC"
+    "minimum-stability": "RC",
+    "autoload": {
+        "classmap": ["src/"]
+    }
 }
