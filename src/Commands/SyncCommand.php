@@ -5,8 +5,10 @@ namespace Commands;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+
+use Symfony\Component\Filesystem\Filesystem;
+
 
 class SyncCommand extends Command
 {
@@ -24,7 +26,21 @@ class SyncCommand extends Command
     {
         $srcDir = $input->getArgument('<src>');
         $destDir = $input->getArgument('<dest>');
+        $fs = new Filesystem();
 
-        $output->writeln('args loaded');
+        if (! $fs->exists($srcDir)) {
+            $output->writeln('<error><src> is not a directory</error>');
+            return;
+        }
+        $srcDir = rtrim($srcDir, '/').'/';
+
+        if (! $fs->exists($destDir)) {
+            $output->writeln('<error><dest> is not a directory</error>');
+            return;
+        }
+        $destDir = rtrim($destDir, '/').'/';
+
+        $output->writeln($srcDir);
+        $output->writeln($destDir);
     }
 }
