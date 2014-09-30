@@ -103,11 +103,11 @@ class SyncCommand extends Command
         foreach ($iterator as $file) {
             $fullPath = $file->getRealpath();
             $fullPath = str_replace('\\', '/', $fullPath);
-            $checksum = md5_file($fullPath);
 
             $relPath = $file->getRelativePathname();
             $relPath = str_replace('\\', '/', $relPath);
             if ($this->compareWithMd5) {
+                $checksum = md5_file($fullPath);
                 $out[] = sprintf('%s__%s', $checksum, $relPath);
             } else {
                 $out[] = $relPath;
