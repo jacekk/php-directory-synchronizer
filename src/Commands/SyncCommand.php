@@ -78,6 +78,7 @@ class SyncCommand extends Command
         $this->removeOldFiles($filesToRemove);
         $this->copyNewFiles($filesToCopy);
         // $this->removeEmptyDirectories();
+        $this->output->writeln("sync finished");
     }
 
     private function listFiles($directory)
@@ -104,35 +105,44 @@ class SyncCommand extends Command
 
     private function removeOldFiles($files)
     {
-        $list = array();
+        if (empty($files)) {
+            return;
+        }
+        $progress = $this->getHelper('progress');
+        $progress->start($this->output, count($files));
+        $this->output->writeln("removing old files...");
         foreach ($files as $file) {
             $fileName = substr($file, static::CHECKSUM_OFFSET);
             $path = $this->dest . $fileName;
-            $list[] = $path;
+            try {
+                $this->fs->remove($path);
+                $progress->advance();
+            } catch (Exception $ex) {
+                $this->output->writeln(sprintf('<error>%s</error>', $ex->getMessage()));
+            }
         }
-        try {
-            $this->fs->remove($list);
-            $counter = count($list);
-            $this->output->writeln("removed old files: {$counter}");
-        } catch (Exception $ex) {
-            $this->output->writeln(sprintf('<error>%s</error>', $ex->getMessage()));
-        }
+        $progress->finish();
     }
 
     private function copyNewFiles($files)
     {
-        $counter = 0;
+        if (empty($files)) {
+            return;
+        }
+        $progress = $this->getHelper('progress');
+        $progress->start($this->output, count($files));
+        $this->output->writeln("copying new files...");
         foreach ($files as $file) {
             $fileName = substr($file, static::CHECKSUM_OFFSET);
             $srcPath = $this->src . $fileName;
             $destPath = $this->dest . $fileName;
             try {
                 $this->fs->copy($srcPath, $destPath, true);
-                $counter++;
+                $progress->advance();
             } catch (Exception $ex) {
                 $this->output->writeln(sprintf('<error>Could not copy: %s</error>', $fileName));
             }
         }
-        $this->output->writeln("copied new files: {$counter}");
+        $progress->finish();
     }
 }
